@@ -1,0 +1,73 @@
+/* GLOBAL */
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+input {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 300px;
+  padding: 10px;
+  color: black;
+  background-color: #b2fff1;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  color: white;
+  background-color: #1fbfa2;
+}
+
+/* LOGIN PAGE */
+
+.login-page {
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-page.active {
+  display: block;
+}
+
+/* DASHBOARD PAGE */
+
+.dashboard-page {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+}
+
+.dashboard-page.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ERROR PAGE */
+
+.error-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
