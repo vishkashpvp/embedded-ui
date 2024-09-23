@@ -2,7 +2,7 @@ let resolution = "";
 
 window.onload = function () {
   const username = localStorage.getItem("username");
-  const isRpcConnected = window.isRpcConnected();
+  const isRpcConnected = localStorage.getItem("isRpcConnected") === "true";
 
   console.log("username :>> ", username);
   console.log("isRpcConnected :>> ", isRpcConnected);

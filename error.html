@@ -8,20 +8,32 @@
   </head>
   <body>
     <div class="error-page">
-      <button id="reconnectButton">Reconnect to RPC</button>
+      <button id="reconnectButton" onclick="reconnect()">Reconnect to RPC</button>
     </div>
 
     <script src="rpc.js"></script>
     <script>
-      document.getElementById("reconnectButton").onclick = async function () {
-        await window.connectRpc();
-
-        if (window.isRpcConnected) {
+      window.onload = async function () {
+        const isRpcConnected = localStorage.getItem("isRpcConnected") === "true";
+        if (isRpcConnected) {
           window.location.href = "dashboard.html";
-        } else {
-          alert("Failed to reconnect. Please try again.");
         }
       };
+
+      async function reconnect() {
+        try {
+          await window.connectRpc();
+
+          const isRpcConnected = localStorage.getItem("isRpcConnected") === "true";
+          if (isRpcConnected) {
+            window.location.href = "dashboard.html";
+          } else {
+            alert("Failed to reconnect. Please try again.");
+          }
+        } catch (err) {
+          console.log("err :>> ", err);
+        }
+      }
     </script>
   </body>
 </html>

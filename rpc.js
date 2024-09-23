@@ -2,9 +2,14 @@
   const RPC_SERVER_URL = "ws://10.0.2.15:8000/websocket";
   const JSON_RPC_TIMEOUT_MS = 5000;
   let rpc = null;
-  let isRpcConnected = false;
+  window.isRpcConnected = false;
 
   console.log("inside rpc.js file..........................");
+
+  function updateConnectionStatus(isConnected) {
+    window.isRpcConnected = isConnected;
+    localStorage.setItem("isRpcConnected", isConnected);
+  }
 
   function jsonRpc({ onopen, onclose, onnotification }) {
     let rpcid = 0;
@@ -14,6 +19,7 @@
     return new Promise((resolve, reject) => {
       ws.onopen = () => {
         console.log("WebSocket connection established.");
+        updateConnectionStatus(true);
         if (onopen) onopen();
 
         resolve({
@@ -42,11 +48,13 @@
 
       ws.onerror = (error) => {
         console.error("WebSocket error:", error);
+        updateConnectionStatus(false);
         reject(new Error("Failed to connect to WebSocket server."));
       };
 
       ws.onclose = () => {
         console.log("WebSocket connection closed.");
+        updateConnectionStatus(false);
         if (onclose) onclose();
         reject(new Error("WebSocket connection closed."));
       };
@@ -77,15 +85,15 @@
       });
       if (!rpc) {
         console.error("Failed to establish RPC connection.");
-        isRpcConnected = false;
+        updateConnectionStatus(false);
         return;
       }
       console.log("RPC connection established:", rpc);
-      isRpcConnected = true;
+      updateConnectionStatus(true);
     } catch (err) {
       console.error("RPC connection error:", err);
-      isRpcConnected = false;
-      window.location.href = "/error.html";
+      updateConnectionStatus(false);
+      window.location.href = "error.html";
     }
   }
 
@@ -105,5 +113,4 @@
   window.jsonRpc = jsonRpc;
   window.connectRpc = connectRpc;
   window.callRpcMethod = callRpcMethod;
-  window.isRpcConnected = isRpcConnected;
 })();
