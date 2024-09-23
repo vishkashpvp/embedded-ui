@@ -14,7 +14,6 @@
     return new Promise((resolve, reject) => {
       ws.onopen = () => {
         console.log("WebSocket connection established.");
-        isRpcConnected = true;
         if (onopen) onopen();
 
         resolve({
@@ -48,7 +47,6 @@
 
       ws.onclose = () => {
         console.log("WebSocket connection closed.");
-        isRpcConnected = false;
         if (onclose) onclose();
         reject(new Error("WebSocket connection closed."));
       };
@@ -79,11 +77,14 @@
       });
       if (!rpc) {
         console.error("Failed to establish RPC connection.");
+        isRpcConnected = false;
         return;
       }
       console.log("RPC connection established:", rpc);
+      isRpcConnected = true;
     } catch (err) {
       console.error("RPC connection error:", err);
+      isRpcConnected = false;
       window.location.href = "/error.html";
     }
   }
@@ -104,5 +105,5 @@
   window.jsonRpc = jsonRpc;
   window.connectRpc = connectRpc;
   window.callRpcMethod = callRpcMethod;
-  window.isRpcConnected = () => isRpcConnected;
+  window.isRpcConnected = isRpcConnected;
 })();
