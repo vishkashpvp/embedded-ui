@@ -1,4 +1,15 @@
-let resolution = "";
+const resolutionForm = document.getElementById("resolutionForm");
+const resolutionSelect = document.getElementById("resolution");
+const bitrateSelect = document.getElementById("bitrate");
+const fpsSelect = document.getElementById("fps");
+const audioFormatSelect = document.getElementById("audioFormat");
+const videoFormatSelect = document.getElementById("videoFormat");
+const submitButton = resolutionForm.querySelector("button");
+
+// Add change event listener to all selects
+[resolutionSelect, bitrateSelect, fpsSelect, audioFormatSelect, videoFormatSelect].forEach(
+  (select) => select.addEventListener("change", checkFormValidity)
+);
 
 window.onload = function () {
   const username = localStorage.getItem("username");
@@ -26,13 +37,24 @@ function logout() {
   window.location.href = "index.html";
 }
 
-function setResolution(value) {
-  resolution = value;
-  document.getElementById("submitButton").disabled = !resolution;
+function checkFormValidity() {
+  const allSelected =
+    resolutionSelect.value &&
+    bitrateSelect.value &&
+    fpsSelect.value &&
+    audioFormatSelect.value &&
+    videoFormatSelect.value;
+  submitButton.disabled = !allSelected;
 }
 
-function rpcResolution(event) {
-  event.preventDefault();
-  const [width, height] = resolution.split("x");
-  callRpcMethod("resolution", [height, width]);
-}
+resolutionForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const formData = {
+    resolution: resolutionSelect.value,
+    bitrate: bitrateSelect.value,
+    fps: fpsSelect.value,
+    audioFormat: audioFormatSelect.value,
+    videoFormat: videoFormatSelect.value,
+  };
+  window.callRpcMethod("video_settings", formData);
+});

@@ -27,10 +27,14 @@ button {
   border-radius: 1rem;
   cursor: pointer;
 }
-
 button:hover {
   color: white;
   background-color: #1fbfa2;
+}
+button:disabled {
+  color: black;
+  background-color: gray;
+  cursor: not-allowed;
 }
 
 /* LOGIN PAGE */
