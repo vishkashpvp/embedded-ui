@@ -56,5 +56,6 @@ resolutionForm.addEventListener("submit", function (e) {
     audioFormat: audioFormatSelect.value,
     videoFormat: videoFormatSelect.value,
   };
-  window.callRpcMethod("video_settings", formData);
+  const params = { mainStream: formData, subStream: formData };
+  window.callRpcMethod("av_settings", params);
 });
